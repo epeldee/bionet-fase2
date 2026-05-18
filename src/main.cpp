@@ -9,11 +9,8 @@
 #include <iostream>
 #include <string>
 #include "Paciente.h"
+#include "clienteSocket.h"
 using namespace std;
-
-// TODO: cuando la compañera tenga el socket listo, estas funciones
-// se comunicarán con el servidor para validar y registrar usuarios.
-// De momento son stubs que crean objetos de prueba.
 
 void limpiarBuffer() {
     cin.ignore(1000, '\n');
@@ -32,20 +29,14 @@ Paciente* loginPaciente() {
     cout << "Contrasena: ";
     getline(cin, pass);
 
-    // TODO: enviar al servidor -> "LOGIN;<dni>;<pass>"
-    // y recibir los datos del paciente si es correcto
-    // Por ahora creamos un paciente de prueba si el DNI no está vacío
-    if (dni.empty()) {
-        cout << "[!] DNI no puede estar vacio.\n";
+    ClienteSocket sock;
+    string respuesta = sock.enviar("LOGIN;" + dni + ";" + pass);
+    if (respuesta == "OK") {
+    } else {
+        cout << "[!] " << respuesta << "\n";
         return nullptr;
     }
-
-    cout << "[STUB] Validando credenciales con el servidor...\n";
-    cout << "[INFO] Login real pendiente de conexion con el servidor.\n";
-
-    // Paciente de prueba hasta que esté el socket
-    return new Paciente(dni, "Usuario Prueba", "prueba@email.com",
-                        pass, "Bilbao", "Sin historial");
+    return nullptr;
 }
 
 void registrarPaciente() {
@@ -73,10 +64,10 @@ void registrarPaciente() {
     cout << "Historial medico breve (alergias, enfermedades...): ";
     getline(cin, historial);
 
-    // TODO: enviar al servidor -> "REGISTRO;<dni>;<nombre>;<email>;<municipio>;<pass>;<historial>"
-    cout << "[STUB] Enviando datos de registro al servidor...\n";
-    cout << "[INFO] Registro real pendiente de conexion con el servidor.\n";
-    cout << "[OK] Paciente registrado correctamente (stub).\n";
+    ClienteSocket sock;
+    string respuesta = sock.enviar("REGISTRO;" + dni + ";" + nombre + ";" +
+                                    email + ";" + municipio + ";" + pass + ";" + historial);
+    cout << (respuesta == "OK" ? "[OK] Registrado." : "[ERROR] " + respuesta) << "\n";
 }
 
 int main() {

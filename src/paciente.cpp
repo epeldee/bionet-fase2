@@ -4,7 +4,7 @@
  *  Created on: 18 may 2026
  *      Author: nahia.epelde
  */
-
+#include "clienteSocket.h"
 #include "paciente.h"
 #include <iostream>
 
@@ -19,34 +19,40 @@ string Paciente::getHistorialMedico() const {return historialMedico; }
 
 //HAY QUE PONER LAS LLAMADAS REALES AL SOCKET
 void Paciente::buscarFarmacias(string busqueda){
-	//TODO: enviar al servidor -<z "BUSCAR_FARMACIA;<busqueda>"
-	cout << "[STUB] Buscando farmacias por: " << busqueda << "\n";
-	cout << "[INFO] Funcionalidad pendiente de conexion con el servidor.\n";
+	ClienteSocket sock;
+	cout << sock.enviar("BUSCAR_FARMACIA;" + busqueda) << endl;
 }
 
 void Paciente::buscarCentros(string busqueda){
-    // TODO: enviar al servidor -> "BUSCAR_CENTRO;<busqueda>"
-    cout << "[STUB] Buscando centros de salud por: " << busqueda << "\n";
-    cout << "[INFO] Funcionalidad pendiente de conexion con el servidor.\n";
+	ClienteSocket sock;
+	cout << sock.enviar("BUSCAR_CENTRO;" + busqueda) << endl;
 }
 
 void Paciente::consultarStock(string nombreMed, string localidad) {
-    // TODO: enviar al servidor -> "BUSCAR_MED;<nombreMed>;<localidad>"
-    cout << "[STUB] Consultando stock de: " << nombreMed << " en " << localidad << "\n";
-    cout << "[INFO] Funcionalidad pendiente de conexion con el servidor.\n";
+	ClienteSocket sock;
+	cout << sock.enviar("BUSCAR_MED;" + nombreMed + ";" + localidad) << endl;
 }
 
 void Paciente::verFichaMedica() {
-    // TODO: enviar al servidor -> "FICHA_MEDICA;<dni>"
-    cout << "[STUB] Solicitando ficha medica del paciente: " << dni << "\n";
-    cout << "[INFO] Funcionalidad pendiente de conexion con el servidor.\n";
+	ClienteSocket sock;
+	cout << sock.enviar("FICHA_MEDICA;" + dni) << endl;
 }
 
 void Paciente::reservarCita() {
-    // TODO: enviar al servidor -> "BUSCAR_MEDICOS;<especialidad>;<localidad>"
-    //       y luego -> "RESERVAR_CITA;<dni>;<id_medico>;<fecha>;<hora>"
-    cout << "[STUB] Iniciando proceso de reserva de cita...\n";
-    cout << "[INFO] Funcionalidad pendiente de conexion con el servidor.\n";
+	// Primero buscar médicos, luego reservar — los inputs los pides aquí
+	    string especialidad, localidad, idMedico, fecha, hora;
+	    cout << "Especialidad: "; getline(cin, especialidad);
+	    cout << "Municipio: ";    getline(cin, localidad);
+
+	    ClienteSocket sock;
+	    cout << sock.enviar("BUSCAR_MEDICOS;" + especialidad + ";" + localidad) << endl;
+
+	    cout << "ID del médico: "; getline(cin, idMedico);
+	    cout << "Fecha (YYYY-MM-DD): "; getline(cin, fecha);
+	    cout << "Hora (HH:MM): ";       getline(cin, hora);
+
+	    ClienteSocket sock2;
+	    cout << sock2.enviar("RESERVAR_CITA;" + dni + ";" + idMedico + ";" + fecha + ";" + hora) << endl;
 }
 
 
@@ -55,17 +61,17 @@ void Paciente::mostrarMenu() {
 	string input1, input2;
 
 	while (opcion != 0) {
-		cout << "\n==================================\n";
-		cout << "   BIONET: GESTION DE SALUD\n";
-		cout << "   Bienvenido/a, " << nombre << "\n";
-		cout << "==================================\n";
-		cout << "[1] Buscar Farmacias por CP o municipio\n";
-		cout << "[2] Buscar Centros de Salud por CP o municipio\n";
-		cout << "[3] Consultar stock de medicamento\n";
-		cout << "[4] Ver mi ficha medica\n";
-		cout << "[5] Reservar cita medica\n";
-		cout << "[0] Salir\n";
-		cout << "----------------------------------\n";
+		cout << "\n==================================" << endl;
+		cout << "   BIONET: GESTION DE SALUD" << endl;
+		cout << "   Bienvenido/a, " << nombre << endl;
+		cout << "==================================" << endl;
+		cout << "[1] Buscar Farmacias por CP o municipio" << endl;
+		cout << "[2] Buscar Centros de Salud por CP o municipio" << endl;
+		cout << "[3] Consultar stock de medicamento" << endl;
+		cout << "[4] Ver mi ficha medica" << endl;
+		cout << "[5] Reservar cita medica" << endl;
+		cout << "[0] Salir" << endl;
+		cout << "----------------------------------" << endl;
 		cout << "Seleccione una opcion: ";
 		cin >> opcion;
 		cin.ignore();
@@ -100,11 +106,11 @@ void Paciente::mostrarMenu() {
 				break;
 
 			case 0:
-				cout << "Saliendo del sistema...\n";
+				cout << "Saliendo del sistema..." << endl;
 				break;
 
 			default:
-				cout << "Opcion no valida.\n";
+				cout << "Opcion no valida." << endl;
 				break;
 		}
 	}
