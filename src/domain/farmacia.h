@@ -23,7 +23,7 @@ private:
 	bool esGuardia;
 
 public:
-	Farmacia(int id, string nombre, string sieccion,
+	Farmacia(int id, string nombre, string direccion,
 			string telefono, int codigoPostal,
 			string municipio, bool esGuardia);
 

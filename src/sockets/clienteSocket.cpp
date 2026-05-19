@@ -50,8 +50,8 @@ void ClienteSocket::desconectar() {
 string ClienteSocket::enviar(const string& mensaje) {
     if (!conectar()) return "ERROR;Sin conexion";
 
-    char sendBuff[512] = {};
-    char recvBuff[512] = {};
+    char sendBuff[4096] = {};
+    char recvBuff[4096] = {};
 
     // SEND  (igual que el ejemplo)
     strncpy(sendBuff, mensaje.c_str(), sizeof(sendBuff) - 1);

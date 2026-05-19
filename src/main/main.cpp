@@ -9,9 +9,9 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "paciente.h"
-#include "clienteSocket.h"
-#include "admin.h"
+#include "../domain/paciente.h"
+#include "../sockets/clienteSocket.h"
+#include "../domain/admin.h"
 using namespace std;
 
 void limpiarBuffer() {

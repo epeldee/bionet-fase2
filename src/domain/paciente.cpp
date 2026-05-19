@@ -4,7 +4,7 @@
  *  Created on: 18 may 2026
  *      Author: nahia.epelde
  */
-#include "clienteSocket.h"
+#include "../sockets/clienteSocket.h"
 #include "paciente.h"
 #include <iostream>
 
