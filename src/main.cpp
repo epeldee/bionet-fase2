@@ -1,4 +1,4 @@
-/*
+	/*
  * main.cpp
  *
  *  Created on: 18 may 2026
@@ -8,8 +8,9 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
-#include "Paciente.h"
+#include "paciente.h"
 #include "clienteSocket.h"
+#include "admin.h"
 using namespace std;
 
 void limpiarBuffer() {
@@ -31,12 +32,43 @@ Paciente* loginPaciente() {
 
     ClienteSocket sock;
     string respuesta = sock.enviar("LOGIN;" + dni + ";" + pass);
-    if (respuesta == "OK") {
+
+    if (respuesta.substr(0, 2) == "OK") {
+	   stringstream ss(respuesta);
+	   string token;
+	   string partes[5];
+	   int i = 0;
+	   while (getline(ss, token, ';') && i < 5) {
+		   partes[i++] = token;
+	   }
+	   // partes[0]=OK, [1]=dni, [2]=nombre, [3]=email, [4]=municipio
+	   cout << "[OK] Bienvenido/a, " << partes[2] << "\n";
+	   return new Paciente(partes[1], partes[2], partes[3], pass, partes[4], "");
     } else {
         cout << "[!] " << respuesta << "\n";
         return nullptr;
     }
-    return nullptr;
+}
+
+Administrador* loginAdmin() {
+    string usuario, pass;
+
+    cout << "\n=====================================\n";
+    cout << "       ACCESO ADMINISTRADOR\n";
+    cout << "=====================================\n";
+
+    cout << "Usuario: ";
+    getline(cin, usuario);
+    cout << "Contrasena: ";
+    getline(cin, pass);
+
+    if (usuario == "admin" && pass == "1234") {
+        cout << "[OK] Acceso concedido.\n";
+        return new Administrador(usuario, pass);
+    } else {
+        cout << "[!] Credenciales de administrador incorrectas.\n";
+        return nullptr;
+    }
 }
 
 void registrarPaciente() {
@@ -95,8 +127,16 @@ int main() {
             }
 
             case 2:
-                registrarPaciente();
-                break;
+			Administrador* admin = loginAdmin();
+			if (admin != nullptr) {
+				admin->mostrarMenu();
+				delete admin;
+			}
+			break;
+
+        	case 3:
+        		registrarPaciente();
+        		break;
 
             case 0:
                 cout << "[Saliendo...] Aplicacion cerrada.\n";
