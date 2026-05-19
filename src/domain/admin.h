@@ -19,6 +19,8 @@ public:
 	void gestionFarmacias();
 	void gestionUsuarios();
 	void gestionPersonal();
+	void ver_logs_sistema();
+	void configuracion();
 
 	void mostrarMenu() override;
 };
