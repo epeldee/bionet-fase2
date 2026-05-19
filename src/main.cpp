@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "paciente.h"
 #include "clienteSocket.h"
 #include "admin.h"
@@ -102,6 +103,7 @@ void registrarPaciente() {
     cout << (respuesta == "OK" ? "[OK] Registrado." : "[ERROR] " + respuesta) << "\n";
 }
 
+
 int main() {
     int opcion = -1;
 
@@ -110,7 +112,8 @@ int main() {
         cout << "      BIENVENIDO A BIONET\n";
         cout << "==================================\n";
         cout << "[1] Login Paciente\n";
-        cout << "[2] Registrarse (Nuevo Paciente)\n";
+        cout << "[2] Login Administrador\n";
+        cout << "[3] Registrarse (Nuevo Paciente)\n";
         cout << "[0] Salir\n";
         cout << "Seleccione: ";
         cin >> opcion;
@@ -125,23 +128,20 @@ int main() {
                 }
                 break;
             }
-
-            case 2:
-			Administrador* admin = loginAdmin();
-			if (admin != nullptr) {
-				admin->mostrarMenu();
-				delete admin;
-			}
-			break;
-
-        	case 3:
-        		registrarPaciente();
-        		break;
-
+            case 2: {
+                Administrador* admin = loginAdmin();
+                if (admin != nullptr) {
+                    admin->mostrarMenu();
+                    delete admin;
+                }
+                break;
+            }
+            case 3:
+                registrarPaciente();
+                break;
             case 0:
                 cout << "[Saliendo...] Aplicacion cerrada.\n";
                 break;
-
             default:
                 cout << "Opcion no valida.\n";
                 break;

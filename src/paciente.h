@@ -25,7 +25,6 @@ public:
 	string getMunicipio() const;
 	string getHistorialMedico() const;
 
-	//ESTO HAY QUE CAMBIAR CUANDO HAGAMOS LO DE LOS SOCKETS
 	void buscarFarmacias(string busqueda);
 	void buscarCentros(string busqueda);
 	void consultarStock(string nombreMed, string localidad);
