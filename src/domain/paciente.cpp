@@ -17,7 +17,6 @@ Paciente::Paciente(string dni, string nombre, string email,
 string Paciente::getMunicipio() const {return municipio;}
 string Paciente::getHistorialMedico() const {return historialMedico; }
 
-//HAY QUE PONER LAS LLAMADAS REALES AL SOCKET
 void Paciente::buscarFarmacias(string busqueda){
 	ClienteSocket sock;
 	cout << sock.enviar("BUSCAR_FARMACIA;" + busqueda) << endl;
