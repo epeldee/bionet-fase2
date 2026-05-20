@@ -52,6 +52,7 @@ void Paciente::reservarCita() {
 
 	    ClienteSocket sock2;
 	    cout << sock2.enviar("RESERVAR_CITA;" + dni + ";" + idMedico + ";" + fecha + ";" + hora) << endl;
+
 }
 
 
