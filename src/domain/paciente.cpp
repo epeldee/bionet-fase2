@@ -62,11 +62,6 @@ void Paciente::reservarCita() {
 	cin >> opEsp;
 	cin.ignore();
 
-<<<<<<< HEAD
-	    ClienteSocket sock2;
-	    cout << sock2.enviar("RESERVAR_CITA;" + dni + ";" + idMedico + ";" + fecha + ";" + hora) << endl;
-
-=======
 	if (opEsp < 1 || opEsp > total) {
 		cout << "Opcion no valida. Volviendo al menu...\n";
 		return;
@@ -80,7 +75,15 @@ void Paciente::reservarCita() {
 
 	// Buscar médicos de esa especialidad en esa zona
 	ClienteSocket sock;
-	cout << sock.enviar("BUSCAR_MEDICOS;" + especialidadElegida + ";" + localidad) << endl;
+	string respMedicos = sock.enviar("BUSCAR_MEDICOS;" + especialidadElegida + ";" + localidad);
+
+	cout << respMedicos << endl;
+
+	if(respMedicos.find("[!] No se han encontrado medicos con estos criterios") != string::npos){
+		cout << "[!] No hay medicos disponibles para esa especialidad en la zona elegida.\n";
+		cout << "Volviendo al menu principal...\n";
+		return;
+	}
 
 	cout << "Introduzca el ID del medico elegido: ";
 	getline(cin, idMedico);
@@ -111,7 +114,7 @@ void Paciente::reservarCita() {
 			}
 		}
 	}
->>>>>>> branch 'main' of https://github.com/epeldee/bionet-fase2.git
+
 }
 
 void Paciente::mostrarMenu() {
